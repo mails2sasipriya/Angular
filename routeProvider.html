@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="githubapp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="../../bower_components/angular-route/angular-route.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <script>
+        angular.module('githubapp', ['ngRoute']);
+        angular.module('githubapp').config(function ($routeProvider) {
+                $routeProvider.when('/search', {
+                templateUrl: 'partials/_search.html',
+                controller: 'GithubController'
+            }).when('/user/:username', {
+                controller: 'GithubUserController',
+                templateUrl: 'partials/_user.html'
+            }).otherwise({
+                redirectTo: '/search'
+            });
+        }).controller('GithubController', function ($scope, $http) {
+            $scope.term = 'sasipriya';
+
+            $scope.search = function(event) {
+                if (event.keyCode === 13) {
+                    $http({
+                        url: 'https://api.github.com/search/repositories?q=' + $scope.term,
+                        method: 'GET',
+                        cache: true
+                    }).success(function (data) {
+                        console.log(data);
+                        $scope.data = data;
+                    });
+                }
+            }
+        }).controller('GithubUserController', function ($scope, $http, $routeParams) {
+            console.log($routeParams);
+            $scope.owner = $routeParams.username;
+            $http.get('https://api.github.com/users/'+$scope.owner).success(function(data){
+                console.log(data);
+                $scope.result = data;
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div ng-view></div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="formApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('formApp', []).controller('formController', function ($scope) {
+        }).directive('mansi', function () {
+            return {
+                restrict: 'EA',
+                scope: false,
+                templateUrl: 'partials/_form.html',
+                link: function (scope, element, attrs) {
+                    if (typeof(Storage) != "undefined") {
+
+                        var formDate = {};
+                        //Retrieve from local storage
+                        for (var i = 0; i <= localStorage.length - 1; i++) {
+                            formDate[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
+                        }
+                        scope.result = formDate;
+                        element[0].addEventListener('keydown', function (event) {
+                            if (event.keyCode === 13) {
+                                scope.$apply(function () {
+                                    var labels = document.getElementsByTagName('label');
+                                    for (var i = 0; i <= labels.length - 1; i++) {
+                                        //Store data in local storage
+                                        localStorage.setItem(labels[i].innerHTML, element[0][i].value);
+                                    }
+                                    alert("Data stored in local storage");
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<div ng-controller="formController">
+    <form id="userForm" mansi action="" method="POST">
+    </form>
+</div>
+</body>

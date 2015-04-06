@@ -1,0 +1,10 @@
+<section>
+    <h3>Information about the user: {{owner}} </h3>
+    <div>
+        <table>
+            <tr><th colspan="2">User Details</th></tr>
+            <tr><td colspan="2" align="center"><img ng-src="{{result.avatar_url}}"/></td></tr>
+            <tr ng-repeat="(key,value) in result"><td>{{key}}</td><td>{{value}}</td></tr>
+        </table>
+    </div>
+</section>

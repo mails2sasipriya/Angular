@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <script>
+        angular.module("myApp", []).controller("myController", function($scope, $http){
+            $scope.user = "Enter user";
+            $scope.getUserDetails = function(event){
+                if(event.keyCode === 13){
+                    $http.get('https://api.github.com/users/'+$scope.user).success(function(data){
+                        console.log(data);
+                        $scope.result = data;
+                    });
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+ <div ng-controller="myController">
+     Username: <input type="text" ng-model="user" height="200" width="200" ng-keydown="getUserDetails($event)"/><br><br>
+     <div>
+     <table>
+         <tr><td colspan="2">Show User Details</td></tr>
+         <tr><td colspan="2" align="center"><img ng-src="{{result.avatar_url}}"/></td></tr>
+         <tr ng-repeat="(key,value) in result"><td>{{key}}</td><td>{{value}}</td></tr>
+     </table>
+ </div>
+</body>
+</html>

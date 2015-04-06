@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <link rel="stylesheet" href="css/base.css" />
+</head>
+<body>
+   <!--Default value is false-->
+   <input type="checkbox" ng-model="checked"/>
+   <p ng-show="checked">Priya</p><br>
+<!--   <p ng-show="!checked">Priya</p>
+   <p ng-hide="checked">Priya</p>
+   <p ng-hide="!checked">Priya</p>-->
+   <input type="text" ng-model="name"/>
+   <p ng-show="name" id="showHide">{{name}}</p>
+</body>
+</html>

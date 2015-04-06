@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("myApp", []).controller("myController", function($scope){
+            $scope.collection = [{name: "Priya"}, {name: "Go-live"}, {name: "Angular"}];
+        })
+    </script>
+</head>
+<body>
+ <div ng-controller="myController">
+  <!--  <ul>
+        <li ng-repeat="value in collection">{{value.name}}</li>
+    </ul>-->
+     <h1 ng-repeat-start="value in collection">Data Start</h1>
+     <p>{{value.name}}</p>
+     <h1 ng-repeat-end>Data End</h1>
+ </div>
+</body>
+</html>

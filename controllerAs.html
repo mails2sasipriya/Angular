@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <script>
+        var app = angular.module("myApp", []);
+
+        function SimpleController() {
+            this.collection = [
+                {name: "Priya", city: "Fremont", company: "TCS", no: 22},
+                {name: "Mansi", city: "San Jose", company: "HCL", no: 7},
+                {name: "Ramya", city: "Sunnyvale", company: "TCS", no: 4},
+                {name: "Lakshmi", city: "San Mateo", company: "Apple", no: 5},
+                {name: "Balaji", city: "Fremont", company: "Google", no: 90},
+                {name: "Rekha", city: "San Francisco", company: "FB", no: 39},
+                {name: "Disha", city: "San Jose", company: "Google", no: 7}
+            ];
+            this.limit = 7;
+        }
+        SimpleController.prototype.addData = function () {
+            this.collection.push(this.newData);
+            this.newData = '';
+        };
+
+        app.controller("SimpleController", SimpleController);
+    </script>
+</head>
+<body>
+<div ng-controller="SimpleController as ctrl">
+    <!--  <ul>
+          <li ng-repeat="value in collection">{{value.name}}</li>
+      </ul>-->
+    Strict: <input type="checkbox" ng-model="ctrl.strict"/>
+    Search Name: <input type="text" ng-model="ctrl.search.name"/>
+    Search City: <input type="text" ng-model="ctrl.search.city"/>
+    Search Company: <input type="text" ng-model="ctrl.search.company"/>
+    Search Number: <input type="number" ng-model="ctrl.search.no"/>
+    Limit: <input type="number" ng-model="ctrl.limit"/>
+
+    <br><br>
+    <table>
+        <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Company</th>
+            <th>Lucky Number</th>
+        </tr>
+        <tr ng-repeat="value in ctrl.collection | filter:ctrl.search:ctrl.strict | limitTo: ctrl.limit | orderBy: 'name'">
+            <td>{{$index+1}}</td>
+            <td>{{value.name}}</td>
+            <td>{{value.city}}</td>
+            <td>{{value.company}}</td>
+            <td>{{value.no}}</td>
+        </tr>
+    </table>
+    <h1>Total ctrl.entry: {{ctrl.collection.length}}</h1>
+    <form  ng-submit="ctrl.addData()">
+        Name: <input type="text" ng-model="ctrl.newData.name" required/>
+        City: <input type="text" ng-model="ctrl.newData.city" required/>
+        Company: <input type="text" ng-model="ctrl.newData.company" required/>
+        Lucky Number: <input type="number" ng-model="ctrl.newData.no" required/>
+        <input type="submit" value="Add">
+    </form>
+</div>
+</body>
+</html>

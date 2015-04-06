@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("myApp", []).controller("myController", function($scope, $http){
+            $scope.message = "Term";
+            $scope.search = function(event){
+                if (event.keyCode === 13) {
+                    $http.get('https://api.github.com/search/repositories?q=' + $scope.message)
+                            .success(function (data) {
+                                $scope.result = data;
+                            });
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+ <div ng-controller="myController">
+     Search Git: <input type="text" ng-model="message" ng-keydown="search($event)"/>
+     <h3>Total no of repositories: {{result.total_count}}</h3>
+ </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<section>
+    <h3>Search for Repositories</h3>
+    <input type="text" placeholder="enter the search term ... " ng-model="term" ng-keydown="search($event)"/>
+    <ul>
+        <li ng-repeat="repo in data.items">
+            <a href="#/user/{{repo.owner.login}}">{{repo.full_name}}</a>
+        </li>
+    </ul>
+</section>

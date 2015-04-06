@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="gitApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module("gitApp", []).controller("gitController", function($scope){
+            $scope.message = "Enter term";
+            $scope.search = function(event){
+                if(event.keyCode === 13){
+                    searchTerm($scope.message);
+                }
+            }
+            function searchTerm(term){
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'https://api.github.com/search/repositories?q='+term);
+                xhr.setRequestHeader("accept", "application/json");
+                xhr.addEventListener('readystatechange', function(){
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        var obj = JSON.parse(xhr.responseText);
+                        $scope.$apply(function(){
+                            $scope.result = obj;
+                        })
+                    }
+                });
+                xhr.send();
+            }
+        })
+    </script>
+</head>
+<body>
+<div ng-controller="gitController">
+    <input type="text" ng-keydown="search($event)" ng-model="message"/>
+    <h3>Total no of repositories: {{result.total_count}}</h3>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="gitApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script src="../../bower_components/angular-route/angular-route.js"></script>
+    <script>
+            angular.module("gitApp", ["ngRoute"]);
+            angular.module("gitApp").config(function($routeProvider){
+                $routeProvider.when("/search", {
+                    controller: "GitController",
+                    templateUrl: "partials/_search.html"
+                }).when("/user", {
+                    controller: "userController",
+                    templateUrl: "parials/_user.html"
+                }).otherwise({
+                    redirectTo: "/search"
+                }).controller("GitController", function($scope, $http){
+                    $scope.term = "angularjs";
+                    $http({
+                        method: "GET",
+                        url: "https://api.github.com/search/repositories?q="+$scope.term,
+                        cache: false
+                    }).success(function(data){
+                        $scope.data = data;
+                    })
+
+                }).controler("userController", function($scope, $http, $routeParam){
+                    $http({
+                        method: "GET",
+                        url: "https://api.github.com/users/"+$routeParam.username;
+                        cache: false
+                    }).success(function(data){
+                    $scope.username = data;
+                });
+            });
+
+    </script>
+</head>
+<body>
+ <div ng-controller="GitController">
+     <div ng-view></div>
+ </div>
+</body>
+</html>

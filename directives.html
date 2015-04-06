@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../bower_components/angular/angular.js"></script>
+    <script>
+        angular.module('myApp', []).controller('MyController', function ($scope) {
+            $scope.message = 'Hello';
+        }).controller('MyController2', function ($scope) {
+            $scope.message = 'Hola';
+        }).controller('MyController3', function ($scope) {
+            $scope.message = 'Hi';
+        }).directive('mansi', function () {
+            // return a directive definition object
+            return {
+                restrict: 'EA',
+                scope: false,
+                /*template: '<div>{{message}} from Mansi!!</div>'*/
+                templateUrl: 'partials/_mansi.html',
+                link: function (scope, element, attrs) {
+                    element[0].addEventListener('click', function () {
+                        console.log(scope.message);
+                        scope.$apply(function () {
+                            scope.message = scope.message + ' ... ';
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<div ng-controller="MyController">
+    <input type="text" ng-model="message"/>
+    <div mansi></div>
+</div>
+
+<div ng-controller="MyController2">
+    <div mansi></div>
+</div>
+
+<div ng-controller="MyController3">
+    <div mansi data-exp="10"></div>
+</div>
+</body>
+</html>
